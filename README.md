@@ -4,8 +4,9 @@ A Rust implementation of the Common Access Token specification, which is based o
 This repository is based on https://crates.io/crates/common-access-token version 0.2.2
 
 ### New features added
-- Create token with cose_mac0 or cose_sign1 tag
-- option to add CWT tag 
+- Option to select sign1 or mac0 then creating token defaults to sign1
+- Option to create token with cose_mac0 or cose_sign1 tag, defaults to none
+- Option to add CWT tag, defaults to none 
 - Fully backward compatible with the crate variant 0.2.2
 
 ## Overview
