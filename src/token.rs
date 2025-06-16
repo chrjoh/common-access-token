@@ -17,8 +17,10 @@ pub struct Token {
     pub claims: Claims,
     /// Token signature
     pub signature: Vec<u8>,
-    mac_type: Option<MacType>,
-    cwt: bool,
+    /// what mac type is used and do we have a cose tag present/used
+    pub mac_type: Option<MacType>,
+    /// is cwt tag used
+    pub cwt: bool,
 }
 
 impl Token {
@@ -28,7 +30,7 @@ impl Token {
             header,
             claims,
             signature,
-            mac_type: None,
+            mac_type: Some(MacType::SIGN1(false)),
             cwt: false,
         }
     }
@@ -90,7 +92,7 @@ impl Token {
         let mut dec = Decoder::new(bytes);
 
         let mut cwt_tag: bool = false;
-        let mut mac_tag: Option<MacType> = None;
+        let mut mac_tag: Option<MacType> = Some(MacType::SIGN1(false));
 
         // Check if the token starts with a tag (COSE_Sign1 tag = 18, COSE_Mac0 tag = 17, or custom tag = 61)
         if dec.datatype()? == minicbor::data::Type::Tag {
